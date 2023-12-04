@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import styles from "../../styles/colors";
+import Header from "../../components/Header";
+import PlayerCard from "../../components/PlayerCard";
+import VictoryCard from "../../components/VictoryCard";
 
 
 export default function Hash() {
@@ -123,52 +126,19 @@ export default function Hash() {
           height: '100vh',
         }}
       >
-        <div 
-        style={{
-          textAlign: 'center',
-          backgroundColor: styles[themeSelect].bg1, // '#2196f3',
-          width: '100vw',
-          height: '64px',
-          margin: 0,
-          padding: 16,
-          boxSizing: 'border-box',
-        }}
-        >
-          <h1 style={{margin: 0}} >
-            The Hash Game
-          </h1>
-        </div>
+        <Header themeSelect={themeSelect} />
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '16px', marginBottom: '16px'}}>
-          <div
-            style={{
-              width: '30vw',
-              maxWidth: '250px',
-              borderRadius: '8px', 
-              padding: '16px',
-              backgroundColor: player === 0 ? styles[themeSelect].bg1 : styles[themeSelect].bg2,
-              marginLeft: 0,
-            }}
-          >
-            <h5>
-            {player === 0 && ('> ')}
-              Player 1: {value[0]}
-            </h5>
-          </div>
-          <div
-            style={{
-              width: '30vw',
-              maxWidth: '250px',
-              borderRadius: '8px',
-              padding: '16px',
-              backgroundColor: player === 1 ? styles[themeSelect].bg1 : styles[themeSelect].bg2,
-              marginLeft: 10,
-            }}
-          >
-            <h5>
-              {player === 1 && ('> ')}
-              Player 2: {value[1]}
-            </h5>
-          </div>
+          <PlayerCard
+            bgColor={ player === 0 ? styles[themeSelect].bg1 : styles[themeSelect].bg2} 
+            player="Player 1"
+            playerValue={value[0]}
+          />
+          <PlayerCard
+            bgColor={ player === 1 ? styles[themeSelect].bg1 : styles[themeSelect].bg2} 
+            player="Player 2"
+            playerValue={value[1]}
+            marginLeft={16}
+          />
         </div>
         <div>
           {values.map((line,x)=>(
@@ -194,34 +164,10 @@ export default function Hash() {
             </div>
           ))}
           {playerWin === 0 && (
-            <div
-              style={{
-                position: 'fixed',
-                top: '0px',
-                left: '0px',
-                width: '100vw',
-                height: '50vh',
-                display: 'flex',
-                alignItems: "end",
-                justifyContent: 'center',
-              }}
-            >
-              <div
-                style={{
-                  padding: '16px',
-                  backgroundColor: styles[themeSelect].success,
-                  borderRadius: '8px',
-                  textAlign: 'center',
-                }}
-              >
-                <h2>
-                  {`Congratulation Player ${playerWin+1}`}
-                </h2>
-                <h2>
-                  You are the Winner!
-                </h2>
-              </div>
-            </div>
+            <VictoryCard
+              playerWin={playerWin} 
+              themeSelect={themeSelect}
+            />
           )}
         </div>
         <div style={{marginTop: 10, textAlign: 'center'}}>
@@ -240,7 +186,11 @@ export default function Hash() {
             Reset Game
           </button>
         </div>
-        
+        <div style={{ textAlign: 'center' }}>
+          <h6>
+            Developed by Daniel Dessbesell - 2023
+          </h6>
+        </div>
       </div>
   )
 }
