@@ -6,7 +6,7 @@ export default function Header({themeSelect}) {
       <div 
         style={{
           textAlign: 'center',
-          backgroundColor: styles[themeSelect].bg1, // '#2196f3',
+          backgroundColor: styles[themeSelect].bg1,
           width: '100vw',
           height: '64px',
           margin: 0,

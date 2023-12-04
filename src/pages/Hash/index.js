@@ -16,6 +16,14 @@ export default function Hash() {
   const [playerWin, setPlayerWin] = useState(undefined);
   const [themeSelect, setThemeSelect] = useState('dark');
 
+  function handleChangeTheme() {
+    if (themeSelect === 'dark') {
+      setThemeSelect('light');
+    } else {
+      setThemeSelect('dark');
+    }
+  }
+  
   function handleClick(x,y){
     values[x][y]=value[player];
     console.log('value[player] =>', value[player]);
@@ -171,7 +179,6 @@ export default function Hash() {
           )}
         </div>
         <div style={{marginTop: 10, textAlign: 'center'}}>
-        {/* <hr style={{ width: '200px'}}/> */}
           <button 
             onClick={()=>{ resetGame(); }}
             style={{ 
@@ -184,6 +191,21 @@ export default function Hash() {
             }}
           >
             Reset Game
+          </button>
+        </div>
+        <div style={{marginTop: 10, textAlign: 'center'}}>
+          <button 
+            onClick={()=>{ handleChangeTheme(); }}
+            style={{ 
+              width: '75vw', 
+              height: '45px', 
+              maxWidth: '600px',
+              borderRadius: '5px',
+              backgroundColor: styles[themeSelect].bg1,
+              color: styles[themeSelect].fontColor,
+            }}
+          >
+            Theme: {themeSelect.toUpperCase()}
           </button>
         </div>
         <div style={{ textAlign: 'center' }}>
