@@ -3,6 +3,10 @@ import styles from "../../styles/colors";
 import Header from "../../components/Header";
 import PlayerCard from "../../components/PlayerCard";
 import VictoryCard from "../../components/VictoryCard";
+import verifyRule1 from "../../rules/rule1";
+import verifyRule2 from "../../rules/rule2";
+import verifyRule3 from "../../rules/rule3";
+import verifyRule4 from "../../rules/rule4";
 
 
 export default function Hash() {
@@ -11,7 +15,7 @@ export default function Hash() {
     ['','',''],
     ['','',''],
   ]);
-  const [value, setValue] = useState(['X', 'O']);
+  const value = ['X', 'O'];
   const [player, setPlayer] = useState(0);
   const [playerWin, setPlayerWin] = useState(undefined);
   const [themeSelect, setThemeSelect] = useState('dark');
@@ -26,93 +30,19 @@ export default function Hash() {
   
   function handleClick(x,y){
     values[x][y]=value[player];
-    console.log('value[player] =>', value[player]);
     if (player === 0){
       setPlayer(1);
     } else {
       setPlayer(0);
     }
-    verifyRule1(values[x]);
-    verifyRule2(y);
-    verifyRule3();
-    verifyRule4();
-  }
-
-  function verifyRule1(line) { // Line Verify
-    const aux = line[0];
-    let count = 0;
-    if (aux !== '') {
-    line.forEach((item) => {
-      if (item === aux) {
-        count += 1;
-      }
-    });
-  }
-    if (count === 3) {
-      setPlayerWin(player);
-    }
-  }
-
-  function verifyRule2(col) { // Column Verify
-    const aux = values[0][col];
-    let count = 0;
-    if (aux !== '') {
-    values.forEach((item) => {
-      item.forEach((subitem, index)=>{
-        if (index === col){
-          if (subitem === aux) {
-            count += 1;
-          }
-        }
-      })
+    const rulesResult = [];
+    rulesResult.push(verifyRule1(values[x]));
+    rulesResult.push(verifyRule2(y, values));
+    rulesResult.push(verifyRule3(values));
+    rulesResult.push(verifyRule4(values));
       
-    });
-  }
-    if (count === 3) {
-      setPlayerWin(player);
-    }
-  }
-
-  function verifyRule3() { // Diagonal 1 Verify
-    const aux = values[0][0];
-    let positionForVerify = 0;
-    let count = 0;
-    if (aux !== '') {
-
-    values.forEach((item, x) => {
-      item.forEach((subitem, y)=>{
-        if ((x=== positionForVerify) && (y===positionForVerify)) {       
-          if (subitem === aux) {
-            count += 1;
-          }    
-          positionForVerify = positionForVerify + 1;   
-        }         
-      })
-      
-     });
-    }
-    if (count === 3) {
-      setPlayerWin(player);
-    }
-  }
-
-  function verifyRule4() { // Diagonal 2 Verify
-    const aux = values[0][2];
-    let count = 0;
-    if (aux !== '') {
-      if (aux === values[0][2]){
-        count = count + 1;
-      }
-      if (aux === values[1][1]){
-        count = count + 1;
-      }
-      if (aux === values[2][0]){
-        count = count + 1;
-      }
-    }
-    console.log('count => ', count);
-    if (count === 3) {
-      setPlayerWin(player);
+    if (rulesResult.find((x)=>x===true)){
+    setPlayerWin(player);
     }
   }
 
@@ -171,7 +101,7 @@ export default function Hash() {
               ))}
             </div>
           ))}
-          {playerWin === 0 && (
+          {(playerWin === 0 || playerWin === 1) && (
             <VictoryCard
               playerWin={playerWin} 
               themeSelect={themeSelect}
